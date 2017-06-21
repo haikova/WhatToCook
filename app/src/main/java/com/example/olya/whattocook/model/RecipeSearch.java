@@ -1,7 +1,9 @@
-package com.example.olya.whattocook;
+package com.example.olya.whattocook.model;
 
 
 import java.util.List;
+
+import com.example.olya.whattocook.model.Recipe;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
