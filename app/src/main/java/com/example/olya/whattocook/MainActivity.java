@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.olya.whattocook.network.FoodApi;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()){
                             case (R.id.menu_item_ingredients):
                                 fragment = new IngredientsFragment();
+                                Log.d("qwe", "frag");
                                 break;
                             case (R.id.menu_item_recipes):
                                 fragment = new RecipesFragment();
