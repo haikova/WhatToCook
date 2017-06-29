@@ -9,11 +9,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.olya.whattocook.model.Recipe;
 import com.example.olya.whattocook.model.RecipeSearch;
@@ -38,13 +40,17 @@ public class RecipesFragment extends Fragment {
     List<Recipe> recipes;
     static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
     private RecyclerView recyclerView;
+    View rootView;
+    String ingredients;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.recipes, container, false);
+        ingredients = getArguments().getString("ing");
+        Log.d("asa",ingredients);
+        rootView = inflater.inflate(R.layout.recipes, container, false);
 
         recipes = new ArrayList<>();
 
@@ -53,12 +59,19 @@ public class RecipesFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
 
-        RecipesRecyclerAdapter adapter = new RecipesRecyclerAdapter(recipes);
+        RecipesRecyclerAdapter adapter = new RecipesRecyclerAdapter(recipes, this);
         recyclerView.setAdapter(adapter);
 
+        loadRecipes();
 
+        //todo delete ingredients from list, send ingredients to search recipes, save list ingredients sharedpreferences
+
+        return rootView;
+    }
+
+    public void loadRecipes(){
         foodApi = ApiUtils.getFoodApiService();
-        foodApi.getData(API_KEY, "milk", 1).enqueue(new Callback<RecipeSearch>() {
+        foodApi.getData(API_KEY, ingredients, 1).enqueue(new Callback<RecipeSearch>() {
             @Override
             public void onResponse(Call<RecipeSearch> call, Response<RecipeSearch> response) {
 
@@ -80,7 +93,5 @@ public class RecipesFragment extends Fragment {
 
             }
         });
-
-        return rootView;
     }
 }

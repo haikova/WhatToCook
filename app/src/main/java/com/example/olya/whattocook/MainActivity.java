@@ -8,25 +8,31 @@ import android.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.olya.whattocook.network.FoodApi;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements IngredientsFragment.IngredientsListner{
 
     private FoodApi foodApi;
     static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
+    String ingredients;
 
     NavigationView navigationView;
     DrawerLayout drawerLayout;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(
@@ -41,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case (R.id.menu_item_recipes):
                                 fragment = new RecipesFragment();
+                                Bundle arguments = new Bundle();
+                                arguments.putString("ing", ingredients);
+                                fragment.setArguments(arguments);
                                 break;
                         }
                         fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment)
@@ -50,27 +59,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        /*foodApi = ApiUtils.getFoodApiService();
-        foodApi.getData(API_KEY, "milk", 1).enqueue(new Callback<RecipeSearch>() {
-            @Override
-            public void onResponse(Call<RecipeSearch> call, Response<RecipeSearch> response) {
+    }
 
-                if(response.isSuccessful()) {
-                    RecipeSearch recipeSearch = response.body();
-                    Log.d("MainActivity", "posts loaded from API");
-                }else {
-                    int statusCode  = response.code();
-                    Log.d("q", Integer.toString(statusCode));
-                    // handle request errors depending on status code
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RecipeSearch> call, Throwable t) {
-                Log.d("MainActivity", "error loading from API");
-
-            }
-        });*/
-
+    @Override
+    public void sendIngredients(List<String> ingredients) {
+        this.ingredients = TextUtils.join(",", ingredients);
     }
 }

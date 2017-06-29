@@ -1,7 +1,11 @@
 package com.example.olya.whattocook;
 
 
+import android.os.Bundle;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +20,10 @@ import java.util.List;
 public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecyclerAdapter.RecipeViewHolder>{
 
     private List<Recipe> recipes;
+    static RecipesFragment recipesFragment;
 
-    public RecipesRecyclerAdapter(List<Recipe> recipes) {
+    public RecipesRecyclerAdapter(List<Recipe> recipes, RecipesFragment recipesFragment) {
+        this.recipesFragment = recipesFragment;
         this.recipes = recipes;
     }
 
@@ -29,6 +35,20 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecycler
             super(itemView);
             recipeName = (TextView) itemView.findViewById(R.id.recipe_name);
             recipeImage = (ImageView) itemView.findViewById(R.id.recipe_image);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    Log.d("recipe","onClick");
+                    Fragment fragment = new RecipeDetailsFragment();
+                    Bundle args = new Bundle();
+                    args.putString("data", "This data has sent to FragmentTwo");
+                    fragment.setArguments(args);
+                    FragmentTransaction transaction = recipesFragment.getActivity().getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_layout, fragment);
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
         }
 
         public void bindRecipe(Recipe recipe) {
