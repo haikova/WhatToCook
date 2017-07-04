@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.olya.whattocook.model.Recipe;
 import com.example.olya.whattocook.model.RecipeSearch;
@@ -35,63 +36,48 @@ import static com.example.olya.whattocook.MainActivity.API_KEY;
 
 public class RecipesFragment extends Fragment {
 
-    private FoodApi foodApi;
-    RecipeSearch recipeSearch;
-    List<Recipe> recipes;
-    static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
+
+    List<Recipe> recipes = new ArrayList<>();
+
     private RecyclerView recyclerView;
+    RecipeSearch recipeSearch;
     View rootView;
     String ingredients;
+    ProgressBar progressBar;
+    RecipesPresenter recipesPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ingredients = getArguments().getString("ing");
-        Log.d("asa",ingredients);
         rootView = inflater.inflate(R.layout.recipes, container, false);
 
-        recipes = new ArrayList<>();
+        recipesPresenter = new RecipesPresenter(this);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        ingredients = getArguments().getString("ing");
+        Log.d("ingredients for search:",ingredients);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
-        RecipesRecyclerAdapter adapter = new RecipesRecyclerAdapter(recipes, this);
-        recyclerView.setAdapter(adapter);
-
-        loadRecipes();
-
-        //todo delete ingredients from list, send ingredients to search recipes, save list ingredients sharedpreferences
+        setRecyclerView();
+        recipesPresenter.loadRecipes(ingredients);
 
         return rootView;
     }
 
-    public void loadRecipes(){
-        foodApi = ApiUtils.getFoodApiService();
-        foodApi.getData(API_KEY, ingredients, 1).enqueue(new Callback<RecipeSearch>() {
-            @Override
-            public void onResponse(Call<RecipeSearch> call, Response<RecipeSearch> response) {
-
-                if(response.isSuccessful()) {
-                    Log.d("MainActivity", "posts loaded from API");
-                    recipeSearch = response.body();
-                    recipes.addAll(recipeSearch.getRecipes());
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                }else {
-                    int statusCode  = response.code();
-                    Log.d("q", Integer.toString(statusCode));
-                    // handle request errors depending on status code
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RecipeSearch> call, Throwable t) {
-                Log.d("MainActivity", "error loading from API");
-
-            }
-        });
+    void setRecyclerView(){
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        RecipesRecyclerAdapter adapter = new RecipesRecyclerAdapter(recipes, this);
+        recyclerView.setAdapter(adapter);
     }
+
+    void updateRecyclerView(RecipeSearch recipeSearch){
+        recipes.addAll(recipeSearch.getRecipes());
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
 }

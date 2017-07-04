@@ -30,6 +30,7 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecycler
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
         private TextView recipeName;
         private ImageView recipeImage;
+        private String recipeId;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
@@ -40,7 +41,7 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecycler
                     Log.d("recipe","onClick");
                     Fragment fragment = new RecipeDetailsFragment();
                     Bundle args = new Bundle();
-                    args.putString("data", "This data has sent to FragmentTwo");
+                    args.putString("id", recipeId);
                     fragment.setArguments(args);
                     FragmentTransaction transaction = recipesFragment.getActivity().getFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame_layout, fragment);
@@ -54,6 +55,7 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecycler
         public void bindRecipe(Recipe recipe) {
             Picasso.with(recipeImage.getContext()).load(recipe.getImageUrl()).resize(1280, 720).centerCrop().into(recipeImage);
             recipeName.setText(recipe.getTitle());
+            recipeId = recipe.getRecipeId();
         }
     }
 

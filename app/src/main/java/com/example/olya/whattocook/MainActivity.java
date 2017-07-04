@@ -17,7 +17,7 @@ import com.example.olya.whattocook.network.FoodApi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IngredientsFragment.IngredientsListner{
+public class MainActivity extends AppCompatActivity implements IngredientsPresenter.IngredientsListner{
 
     private FoodApi foodApi;
     static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements IngredientsFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         fragmentManager = getFragmentManager();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
