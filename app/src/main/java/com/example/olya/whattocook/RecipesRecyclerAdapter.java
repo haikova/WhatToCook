@@ -4,6 +4,7 @@ package com.example.olya.whattocook;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,10 +23,14 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecycler
     private List<Recipe> recipes;
     static RecipesFragment recipesFragment;
 
+
     public RecipesRecyclerAdapter(List<Recipe> recipes, RecipesFragment recipesFragment) {
         this.recipesFragment = recipesFragment;
         this.recipes = recipes;
-    }
+
+
+
+            }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
         private TextView recipeName;

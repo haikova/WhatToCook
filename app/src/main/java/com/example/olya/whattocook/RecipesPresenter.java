@@ -22,9 +22,9 @@ public class RecipesPresenter {
         this.recipesFragment = recipesFragment;
     }
 
-    public RecipeSearch loadRecipes(String ingredients){
+    public RecipeSearch loadRecipes(String ingredients, int page){
         FoodApi foodApi = ApiUtils.getFoodApiService();
-        foodApi.getData(API_KEY, ingredients, 1).enqueue(new Callback<RecipeSearch>() {
+        foodApi.getData(API_KEY, ingredients, page).enqueue(new Callback<RecipeSearch>() {
             @Override
             public void onResponse(Call<RecipeSearch> call, Response<RecipeSearch> response) {
 

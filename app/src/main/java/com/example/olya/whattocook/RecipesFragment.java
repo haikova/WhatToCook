@@ -38,7 +38,6 @@ import static com.example.olya.whattocook.MainActivity.API_KEY;
 
 public class RecipesFragment extends Fragment {
 
-    //todo scroll recyclerview
     List<Recipe> recipes = new ArrayList<>();
 
     private RecyclerView recyclerView;
@@ -47,6 +46,11 @@ public class RecipesFragment extends Fragment {
     String ingredients;
     ProgressBar progressBar;
     RecipesPresenter recipesPresenter;
+    int page = 1;
+    int maxVisibleItem = 29;
+
+    private boolean isLoading;
+    private int lastVisibleItem, totalItemCount;
 
     @Nullable
     @Override
@@ -60,15 +64,27 @@ public class RecipesFragment extends Fragment {
         ingredients = getArguments().getString("ing");
         Log.d("ingredients for search:",ingredients);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         setRecyclerView();
-        recipesPresenter.loadRecipes(ingredients);
-
+        recipesPresenter.loadRecipes(ingredients, page);
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                Log.d("lastVisibleItem", Integer.toString(lastVisibleItem));
+                if (lastVisibleItem == maxVisibleItem) {
+                    maxVisibleItem += 30;
+                    recipesPresenter.loadRecipes(ingredients, ++page);
+                }
+            }
+        });
         return rootView;
     }
 
     void setRecyclerView(){
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
