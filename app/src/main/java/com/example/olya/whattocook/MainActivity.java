@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements IngredientsPresenter.IngredientsListner, RecipeDetailsPresenter.FavouritesListner{
+public class MainActivity extends AppCompatActivity implements IngredientsPresenter.IngredientsListner{
 
     private FoodApi foodApi;
     static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
@@ -77,8 +77,4 @@ public class MainActivity extends AppCompatActivity implements IngredientsPresen
         this.ingredients = TextUtils.join(",", ingredients);
     }
 
-    @Override
-    public void sendFavourites(Set<String> favourites) {
-        this.favourites = new ArrayList<>(favourites);
-    }
 }

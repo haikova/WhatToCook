@@ -2,6 +2,9 @@ package com.example.olya.whattocook;
 
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,19 +26,15 @@ import android.widget.ToggleButton;
 import com.example.olya.whattocook.model.RecipeDetails;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RecipeDetailsFragment extends Fragment{
 
     ToggleButton toggleButton;
     View rootView;
     RecipeDetailsPresenter recipeDetailsPresenter;
 
-    static RecipeDetailsFragment newInstance(int position, String id) {
-        RecipeDetailsFragment pageFragment = new RecipeDetailsFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString("id", id);
-        pageFragment.setArguments(arguments);
-        return pageFragment;
-    }
 
     @Nullable
     @Override
@@ -46,7 +45,6 @@ public class RecipeDetailsFragment extends Fragment{
         recipeDetailsPresenter = new RecipeDetailsPresenter(this, getArguments().getString("id"));
 
         recipeDetailsPresenter.loadRecipeDetails();
-
 
         return rootView;
     }
@@ -79,20 +77,25 @@ public class RecipeDetailsFragment extends Fragment{
                 startActivity(i);
             }
         });
-        toggleButton.setChecked(recipeDetailsPresenter.checkFavouriteState());
+        toggleButton.setChecked(recipeDetailsPresenter.searchOnDB());
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     Log.d("but", "true");
-                    recipeDetailsPresenter.saveFavouriteState();
+                    recipeDetailsPresenter.insertOnDB();
                 }
                 else {
                     Log.d("but","false");
-                    recipeDetailsPresenter.deleteFavouriteState();
+                    recipeDetailsPresenter.deleteFromDB();
                 }
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        recipeDetailsPresenter.closeDB();
+        super.onDestroy();
+    }
 }

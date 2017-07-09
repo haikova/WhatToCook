@@ -1,8 +1,11 @@
 package com.example.olya.whattocook;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -32,10 +35,11 @@ public class RecipeDetailsPresenter {
     GetRecipe getRecipe;
     String recipeId;
     Set<String> favourites;
-
+    FavouritesDBHelper favouritesDBHelper;
     public RecipeDetailsPresenter(RecipeDetailsFragment recipeDetailsFragment, String recipeId){
         this.recipeDetailsFragment = recipeDetailsFragment;
         this.recipeId = recipeId;
+        favouritesDBHelper = new FavouritesDBHelper(recipeDetailsFragment.getActivity());
     }
 
 
@@ -65,50 +69,44 @@ public class RecipeDetailsPresenter {
         });
     }
 
-    public void saveFavouriteState() {
-        SharedPreferences sharedPreferences = recipeDetailsFragment.getActivity()
-                .getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences
-                .edit();
-        favourites.add(recipeId);
-        sharedPreferencesEdit.putStringSet("favourites", favourites);
-        sharedPreferencesEdit.commit();
-        updateFavourites();
-    }
 
-    public void readFavouriteState() {
-        SharedPreferences sharedPreferences = recipeDetailsFragment.getActivity()
-                .getPreferences(Context.MODE_PRIVATE);
-        favourites = sharedPreferences.getStringSet("favourites", new HashSet<String>());
-    }
+    public boolean searchOnDB(){
+        SQLiteDatabase db = favouritesDBHelper.getReadableDatabase();
+        String[] projection = {FavouritesDBHelper.COLUMN_ID,
+                FavouritesDBHelper.COLUMN_RECIPE_ID,
+                FavouritesDBHelper.COLUMN_TITLE
+        };
+        String selection = FavouritesDBHelper.COLUMN_RECIPE_ID+"=?";
+        String selecitonArgs[] = {recipeId};
 
-    public void deleteFavouriteState() {
-        SharedPreferences sharedPreferences = recipeDetailsFragment.getActivity()
-                .getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences
-                .edit();
-        favourites.remove(recipeId);
-        sharedPreferencesEdit.putStringSet("favourites", favourites);
-        sharedPreferencesEdit.commit();
-        updateFavourites();
-    }
+        Cursor cursor = db.query(FavouritesDBHelper.TABLE,
+                projection, selection, selecitonArgs, null, null, null);
 
-    public boolean checkFavouriteState(){
-        readFavouriteState();
-        if (favourites.contains(recipeId))
-            return true;
-        else
+
+        String recipeId = null;
+        while (cursor.moveToNext()){
+            recipeId = cursor.getString(
+                    cursor.getColumnIndexOrThrow(FavouritesDBHelper.COLUMN_RECIPE_ID));
+        }
+        cursor.close();
+        if (recipeId == null)
             return false;
+        return true;
     }
 
-    void updateFavourites(){
-        FavouritesListner listner = (FavouritesListner) recipeDetailsFragment.getActivity();
-        listner.sendFavourites(favourites);
-        Log.d("qawere", favourites.toString());
+    void insertOnDB(){
+        SQLiteDatabase db = favouritesDBHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FavouritesDBHelper.COLUMN_RECIPE_ID, recipeId);
+        values.put(FavouritesDBHelper.COLUMN_TITLE, recipeDetails.getTitle());
+        db.insert(FavouritesDBHelper.TABLE, null, values);
     }
-
-
-    public interface FavouritesListner{
-        void sendFavourites(Set<String> favourites);
+    void deleteFromDB(){
+        SQLiteDatabase db = favouritesDBHelper.getWritableDatabase();
+        db.delete(FavouritesDBHelper.TABLE, FavouritesDBHelper.COLUMN_RECIPE_ID+"=?",
+                new String[]{recipeId});
+    }
+    void closeDB(){
+        favouritesDBHelper.close();
     }
 }
