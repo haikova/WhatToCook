@@ -7,6 +7,9 @@
         <item
             android:id="@+id/menu_item_recipes"
             android:title="Recipes"/>
+        <item
+            android:id="@+id/menu_item_favourites"
+            android:title="My Favourite Recipes"/>
     </group>
 
     <item android:title="--submenu--">

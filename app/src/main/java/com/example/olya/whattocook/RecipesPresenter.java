@@ -15,16 +15,15 @@ import retrofit2.Response;
 public class RecipesPresenter {
 
     static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
-    private FoodApi foodApi;
-    RecipeSearch recipeSearch;
-    RecipesFragment recipesFragment;
+    private RecipeSearch recipeSearch;
+    private RecipesFragment recipesFragment;
 
     public RecipesPresenter(RecipesFragment recipesFragment){
         this.recipesFragment = recipesFragment;
     }
 
     public RecipeSearch loadRecipes(String ingredients){
-        foodApi = ApiUtils.getFoodApiService();
+        FoodApi foodApi = ApiUtils.getFoodApiService();
         foodApi.getData(API_KEY, ingredients, 1).enqueue(new Callback<RecipeSearch>() {
             @Override
             public void onResponse(Call<RecipeSearch> call, Response<RecipeSearch> response) {

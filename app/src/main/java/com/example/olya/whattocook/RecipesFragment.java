@@ -1,9 +1,11 @@
 package com.example.olya.whattocook;
 
-import android.app.Fragment;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
+import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -36,7 +38,7 @@ import static com.example.olya.whattocook.MainActivity.API_KEY;
 
 public class RecipesFragment extends Fragment {
 
-
+    //todo scroll recyclerview
     List<Recipe> recipes = new ArrayList<>();
 
     private RecyclerView recyclerView;
