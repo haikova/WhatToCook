@@ -71,7 +71,7 @@ public class IngredientsPresenter {
         SharedPreferences.Editor ed = sharedPreferences.edit();
         Set<String> ingredientsSet = new HashSet<String>(ingredients);
         ed.putStringSet("ingredients", ingredientsSet);
-        ed.commit();
+        ed.apply();
         updateIngredients();
     }
 

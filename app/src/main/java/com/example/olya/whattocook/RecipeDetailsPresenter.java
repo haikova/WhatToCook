@@ -18,6 +18,7 @@ import com.example.olya.whattocook.network.ApiUtils;
 import com.example.olya.whattocook.network.FoodApi;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,13 +30,14 @@ public class RecipeDetailsPresenter {
 
     static final String API_KEY = "221a9145a7580bad1fa7ec991bc113b7";
 
-    RecipeDetailsFragment recipeDetailsFragment;
-    RecipeDetails recipeDetails;
+    private RecipeDetailsFragment recipeDetailsFragment;
+    private RecipeDetails recipeDetails;
     private FoodApi foodApi;
-    GetRecipe getRecipe;
-    String recipeId;
-    Set<String> favourites;
-    FavouritesDBHelper favouritesDBHelper;
+    private GetRecipe getRecipe;
+    private String recipeId;
+    private FavouritesDBHelper favouritesDBHelper;
+    SharedPreferences sharedPreferences;
+
     public RecipeDetailsPresenter(RecipeDetailsFragment recipeDetailsFragment, String recipeId){
         this.recipeDetailsFragment = recipeDetailsFragment;
         this.recipeId = recipeId;
@@ -109,4 +111,13 @@ public class RecipeDetailsPresenter {
     void closeDB(){
         favouritesDBHelper.close();
     }
+
+    void saveShoppingCart(ArrayList<String> cart) {
+        sharedPreferences = recipeDetailsFragment.getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sharedPreferences.edit();
+        Set<String> cartSet = new HashSet<>(cart);
+        ed.putStringSet("cart", cartSet);
+        ed.apply();
+    }
+
 }

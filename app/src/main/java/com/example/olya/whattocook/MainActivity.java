@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements IngredientsPresen
                                 argumentsF.putStringArrayList("fav", favourites);
                                 fragment.setArguments(argumentsF);
                                 break;
+                            case (R.id.menu_item_cart):
+                                fragment = new ShoppingCartFragment();
+                                break;
                         }
                         fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment)
                                 .commit();

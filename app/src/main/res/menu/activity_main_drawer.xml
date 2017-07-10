@@ -10,6 +10,9 @@
         <item
             android:id="@+id/menu_item_favourites"
             android:title="My Favourite Recipes"/>
+        <item
+            android:id="@+id/menu_item_cart"
+            android:title="Shopping cart"/>
     </group>
 
     <item android:title="--submenu--">

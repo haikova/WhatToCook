@@ -27,9 +27,6 @@ public class RecipesRecyclerAdapter extends RecyclerView.Adapter<RecipesRecycler
     public RecipesRecyclerAdapter(List<Recipe> recipes, RecipesFragment recipesFragment) {
         this.recipesFragment = recipesFragment;
         this.recipes = recipes;
-
-
-
             }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {

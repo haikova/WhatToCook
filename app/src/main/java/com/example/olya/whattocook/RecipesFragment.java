@@ -41,16 +41,13 @@ public class RecipesFragment extends Fragment {
     List<Recipe> recipes = new ArrayList<>();
 
     private RecyclerView recyclerView;
-    RecipeSearch recipeSearch;
     View rootView;
     String ingredients;
     ProgressBar progressBar;
     RecipesPresenter recipesPresenter;
     int page = 1;
     int maxVisibleItem = 29;
-
-    private boolean isLoading;
-    private int lastVisibleItem, totalItemCount;
+    private int lastVisibleItem;
 
     @Nullable
     @Override
