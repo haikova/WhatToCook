@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">WhatToCook</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="shopping_cart">Shopping cart</string>
+    <string name="my_favourite_recipes">My Favourite Recipes</string>
+    <string name="recipes">Recipes</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="what_to_cook">What to cook</string>
+    <string name="subtitle">help to choose your lunch</string>
+    <string name="recipe_image">Recipe image</string>
+    <string name="icon_image">icon image</string>
+    <string name="visit_the_website">visit the website</string>
+    <string name="textview">TextView</string>
 </resources>

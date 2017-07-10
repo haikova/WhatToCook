@@ -73,7 +73,7 @@ public class IngredientsPresenter {
     void saveIngredients() {
         sharedPreferences = ingredientsFragment.getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sharedPreferences.edit();
-        Set<String> ingredientsSet = new HashSet<String>(ingredients);
+        Set<String> ingredientsSet = new HashSet<>(ingredients);
         ed.putStringSet("ingredients", ingredientsSet);
         ed.apply();
         listner.sendIngredients(ingredients);

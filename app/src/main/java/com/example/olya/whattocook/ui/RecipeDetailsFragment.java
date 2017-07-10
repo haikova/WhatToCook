@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class RecipeDetailsFragment extends Fragment{
     }
 
     public void setView(final RecipeDetails recipeDetails){
+        LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.linear_layout);
         ImageView image = (ImageView) getActivity().findViewById(R.id.image_recipe);
         TextView textTitle = (TextView) getActivity().findViewById(R.id.text_title);
         TextView textPublisher = (TextView) getActivity().findViewById(R.id.text_publisher);
@@ -59,7 +61,7 @@ public class RecipeDetailsFragment extends Fragment{
         toggleButton = (ToggleButton) getActivity().findViewById(R.id.toggleButton);
 
         Picasso.with(image.getContext()).load(recipeDetails.getImageUrl())
-                .resize(1280, 1280).centerCrop().into(image);
+                .resize(1420, 720).centerCrop().into(image);
         textTitle.setText(recipeDetails.getTitle());
         textPublisher.setText(recipeDetails.getPublisher());
         textRating.setText("Rating: " + (recipeDetails.getSocialRank()).toString());
@@ -68,6 +70,7 @@ public class RecipeDetailsFragment extends Fragment{
                 android.R.layout.simple_list_item_1, recipeDetails.getIngredients());
         listIngredients.setAdapter(adapter);
         progressBar.setVisibility(View.INVISIBLE);
+        linearLayout.setVisibility(View.VISIBLE);
         buttonWeb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

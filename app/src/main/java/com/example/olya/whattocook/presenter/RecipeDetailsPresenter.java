@@ -33,7 +33,7 @@ public class RecipeDetailsPresenter {
     private GetRecipe getRecipe;
     private String recipeId;
     private FavouritesDBHelper favouritesDBHelper;
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     public RecipeDetailsPresenter(RecipeDetailsFragment recipeDetailsFragment, String recipeId){
         this.recipeDetailsFragment = recipeDetailsFragment;
@@ -88,9 +88,7 @@ public class RecipeDetailsPresenter {
                     cursor.getColumnIndexOrThrow(FavouritesDBHelper.COLUMN_RECIPE_ID));
         }
         cursor.close();
-        if (recipeId == null)
-            return false;
-        return true;
+        return recipeId != null;
     }
 
     public void insertOnDB(){
@@ -120,8 +118,7 @@ public class RecipeDetailsPresenter {
     public ArrayList<String> loadShoppingCart() {
         sharedPreferences = recipeDetailsFragment.getActivity().getPreferences(Context.MODE_PRIVATE);
         Set<String> ingredientsSet = sharedPreferences.getStringSet("cart", new HashSet<String>());
-        ArrayList<String> cart = new ArrayList<>(ingredientsSet);
-        return cart;
+        return new ArrayList<>(ingredientsSet);
     }
 
 }

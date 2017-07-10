@@ -38,9 +38,10 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         fragmentManager = getSupportFragmentManager();
+        Fragment fragment = new IngredientsFragment();
+        fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment)
+                .commit();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(

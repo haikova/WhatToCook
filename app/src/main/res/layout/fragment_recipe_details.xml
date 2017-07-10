@@ -13,74 +13,73 @@
         android:layout_height="wrap_content"
         android:visibility="visible" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:layout_weight="0.2">
 
             <ImageView
                 android:id="@+id/image_recipe"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5" />
+                android:contentDescription="@string/recipe_image"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/check"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textOff=""
+                android:textOn=""
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:id="@+id/buttonWeb"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
+                android:background="#AA000000"
+                android:text="@string/visit_the_website"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/text_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textview" />
 
-                <TextView
-                    android:id="@+id/text_publisher"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+        <TextView
+            android:id="@+id/text_publisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textview" />
 
-                <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textview" />
 
-                <Button
-                    android:id="@+id/buttonWeb"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="visit the website" />
-
-                <ToggleButton
-                    android:id="@+id/toggleButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="ToggleButton" />
-            </LinearLayout>
-
-        </LinearLayout>
 
         <ListView
             android:id="@+id/list_ingredients"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7" />
+            android:layout_weight="0.3" />
 
     </LinearLayout>
 
